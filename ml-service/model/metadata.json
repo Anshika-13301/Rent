@@ -1,0 +1,39 @@
+{
+  "sub_locations": [
+    "Andheri",
+    "Bandra",
+    "Borivali",
+    "Dadar",
+    "Goregaon",
+    "Juhu",
+    "Malad",
+    "Powai",
+    "Thane",
+    "Worli"
+  ],
+  "property_types": [
+    "1BHK",
+    "2BHK",
+    "PG",
+    "Shared Room",
+    "Studio"
+  ],
+  "furnishing_options": [
+    "Fully-Furnished",
+    "Semi-Furnished",
+    "Unfurnished"
+  ],
+  "feature_order": [
+    "sub_location",
+    "property_type",
+    "furnishing",
+    "distance_to_station_km",
+    "area_sqft",
+    "amenities_wifi",
+    "amenities_ac",
+    "amenities_parking",
+    "amenities_food",
+    "floor_number",
+    "building_age_years"
+  ]
+}

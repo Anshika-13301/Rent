@@ -5,17 +5,47 @@ const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // Simple Hardcoded Demo Admin Credentials
-    if (email === 'admin@rentsense.com' && password === 'admin123') {
+    setError('');
+    setLoading(true);
+
+    // Trim spaces to avoid accidental space errors
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+
+    // Local Client Check (with spaces trimmed)
+    if (cleanEmail === 'admin@rentsense.com' && cleanPassword === 'admin123') {
       localStorage.setItem('isAdminAuthenticated', 'true');
+      setLoading(false);
       navigate('/dashboard');
-    } else {
+      return;
+    }
+
+    // Backup: Try Backend API Login
+    try {
+      const response = await fetch('https://rent-1-opum.onrender.com/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail, password: cleanPassword }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && (data.success || data.token)) {
+        localStorage.setItem('isAdminAuthenticated', 'true');
+        if (data.token) localStorage.setItem('adminToken', data.token);
+        navigate('/dashboard');
+      } else {
+        setError('❌ Invalid Admin Email or Password');
+      }
+    } catch {
       setError('❌ Invalid Admin Email or Password');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,9 +96,10 @@ const AdminLogin = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-teal-500 rounded-xl font-semibold text-sm text-white hover:opacity-95 transition-all shadow-lg mt-2"
+            disabled={loading}
+            className="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-teal-500 rounded-xl font-semibold text-sm text-white hover:opacity-95 transition-all shadow-lg mt-2 disabled:opacity-50"
           >
-            Authenticate Admin
+            {loading ? 'Authenticating…' : 'Authenticate Admin'}
           </button>
         </form>
 

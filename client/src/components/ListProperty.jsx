@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+// Live Render URLs
+const BACKEND_URL = "https://rent-1-opum.onrender.com";
+const ML_URL = "https://rent-78rv.onrender.com";
+
 const ListProperty = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -56,7 +60,8 @@ const ListProperty = () => {
         building_age_years: Number(formData.building_age_years) || 1,
       };
 
-      const res = await fetch('http://localhost:5000/api/predict', {
+      // Direct ML Service call or via Express Backend
+      const res = await fetch(`${ML_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -71,7 +76,7 @@ const ListProperty = () => {
       }
     } catch (err) {
       console.error('Error fetching ML estimate:', err);
-      alert('Prediction Failed! Ensure Node.js (5000) and FastAPI (8000) are running.');
+      alert('Prediction Failed! Ensure live ML backend is running.');
     } finally {
       setLoadingML(false);
     }
@@ -102,7 +107,7 @@ const ListProperty = () => {
         amenities: formData.amenities,
       };
 
-      const res = await fetch('http://localhost:5000/api/properties', {
+      const res = await fetch(`${BACKEND_URL}/api/properties`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

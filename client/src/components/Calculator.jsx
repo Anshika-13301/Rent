@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 import { FaRupeeSign, FaWifi, FaSnowflake, FaCar, FaUtensils } from "react-icons/fa";
 
 // Live Render Backend URL
-const API_BASE_URL = "https://rent-1-opum.onrender.com";
+const API_BASE_URL = "https://rent-78rv.onrender.com";
+
 
 // Direct API fetch function
 const predictRent = async (formData) => {

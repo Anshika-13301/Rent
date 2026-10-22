@@ -2,6 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropertyCard from './PropertyCard';
 import { Search, Filter, RotateCcw } from 'lucide-react';
 
+// Live Render Backend URL
+const BACKEND_URL = "https://rent-1-opum.onrender.com";
+
 const PRESET_LOCATIONS = [
   'Dadar',
   'Andheri',
@@ -29,7 +32,7 @@ const PropertyList = () => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/properties');
+      const res = await fetch(`${BACKEND_URL}/api/properties`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setProperties(data);

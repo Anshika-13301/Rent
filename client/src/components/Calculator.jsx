@@ -1,7 +1,26 @@
 import { useState } from "react";
-import { predictRent } from "../api";
 import toast from "react-hot-toast";
 import { FaRupeeSign, FaWifi, FaSnowflake, FaCar, FaUtensils } from "react-icons/fa";
+
+// Live Render Backend URL
+const API_BASE_URL = "https://rent-78rv.onrender.com";
+
+// Direct API fetch function
+const predictRent = async (formData) => {
+  const response = await fetch(`${API_BASE_URL}/predict`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch prediction");
+  }
+
+  return await response.json();
+};
 
 const SUB_LOCATIONS = ["Andheri", "Bandra", "Powai", "Dadar", "Malad", "Thane", "Borivali", "Juhu", "Worli", "Goregaon"];
 const PROPERTY_TYPES = ["PG", "1BHK", "2BHK", "Shared Room", "Studio"];
@@ -212,9 +231,6 @@ export default function Calculator() {
               >
                 {result.confidence} Confidence
               </span>
-              <p className="text-xs text-gray-500 mt-2">
-                Prediction based on 200-tree Random Forest model trained on local rental data.
-              </p>
             </div>
           ) : (
             <div className="w-full bg-gray-800/30 border border-dashed border-gray-700 rounded-2xl p-8 flex flex-col items-center justify-center text-center text-gray-500">

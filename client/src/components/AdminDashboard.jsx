@@ -22,6 +22,9 @@ import {
   Phone,
 } from 'lucide-react';
 
+// Live Render Backend URL
+const BACKEND_URL = "https://rent-1-opum.onrender.com";
+
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#a4de6c'];
 
 const Dashboard = () => {
@@ -33,7 +36,7 @@ const Dashboard = () => {
   // Backend se MongoDB Listed Properties Fetch Karna
   const fetchProperties = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/properties');
+      const res = await fetch(`${BACKEND_URL}/api/properties`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setProperties(data);
@@ -59,7 +62,7 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this listing?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/properties/${id}`, {
+      const res = await fetch(`${BACKEND_URL}/api/properties/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
